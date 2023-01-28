@@ -1,38 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NFS SUN (Secure Unique NFC) Validation
 
-## Getting Started
+_Validate the authenticity of a request by using NFC tags._
 
-First, run the development server:
+[NTAG 424 DNA](https://www.nxp.com/docs/en/brochure/NTAG424_BROCHURE.pdf) NFC
+Tags perform encryption on board to create a non-forgeable unique URL. The URL
+contains an AES CMAC (Cipher-based Message Authentication Code) which is used to
+validate the authenticity of the request.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+For more information regarding **SUN**, refer to these websites/documents:
+- [NTAG 424 DNA and NTAG 424 DNA TagTamper features and hints](https://www.nxp.com/docs/en/application-note/AN12196.pdf)
+- [NTAG 424 DNA - Secure NFC T4T compliant IC](https://www.nxp.com/docs/en/data-sheet/NT4H2421Gx.pdf)
+- [Integrating NTAG® 424 DNA with a web application](https://nfcdeveloper.com/blog/2022/01/06/integrating-ntag424-dna-tags-with-a-web-application.html)
+- https://github.com/icedevml/sdm-backend/tree/master
+- [NXP Forum on validating CMAC](https://community.nxp.com/t5/NFC/How-to-verify-the-CMAC-myself/m-p/1046998#M7035)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Equipment
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+| Item                  | Description                                                                                                                        | Link                                                                            |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| NTAG 424 DNA          | NFC tag                                                                                                                            | https://www.shopnfc.com/en/nfc-tags-in-pvc/500-circus-flex-pro-ntag424-dna.html |
+| Identiv uTrust 3700 F | NFC reader                                                                                                                         | https://www.amazon.com/gp/product/B07BZ5GCT5                                    |
+| NXP TagXplorer        | NFC Software<br/>Alternatively, you might be able to use the NXP TagWriter app on Android (iPhone version seem to be more limited) | https://www.nxp.com/design/software/tagxplorer/tagxplorer:TAGXPLORER            |
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Encoding Tags
+1. Open NXP TagXplorer (may need to link JavaXF module)
+2. Connect to Reader
+3. Connect to Tag
+4. Choose NTAG Operations
+5. Choose Mirroring Features
+6. Choose NTAG 424 DNA
+7. Choose Protocol (e.g. `https://`)
+8. Type in URI (e.g. `garytou.com`)
+9. Select `Add Tag UID`
+10. Select `Add Interaction Counter`
+11. Select `Enable SUN Message`
+12. Please the cursor in URI data field where mirroring needs to be enabled (Mirroring replaces the `000` placeholders with the UID, Counter, and CMAC). Record the Offset Values for UID, Counter, and SUN (CMAC).
+13. Write to tag
+14. Pesss "OK"
+16. Choose NTAG 424 DNA (top navigation)
+17. Select NDEF Application
+18. Press "Select"
+19. Press "Get/Change File Settings"
+20. Press "OK"
+21. Press "Security Management"
+22. Enter Key (default key: `00000000000000000000000000000000`, 32 zeros)
+23. Press "Authenticate First"
+24. Set SDM Meta Read Access Key to `0E` (everyone can read)
+25. Set SDM Counter Ret Access Key to `0E`
+26. Enter previously recorded Offset Values for UID, SDM Read Counter, and SDM MAC Input (SUN/CMAC)
+28. Set SDM MAC Offset to the same as SDM MAC Input Offset
+29. Press "Change File Settings"
+30. Press "OK"
+31. Press "Disconnect Tag
+32. Press "Disconnect Reader"
+33. Press "Connect Reader"
+34. Press "Connect Tag"
+35. Press "NDEF Operations"
+36. Press "Read NDEF"
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+You should now see a valid SUN URL. Also test with iPhone (scan NFC tag).
