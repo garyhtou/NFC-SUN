@@ -1479,6 +1479,18 @@ next@13.1.6:
     "@next/swc-win32-ia32-msvc" "13.1.6"
     "@next/swc-win32-x64-msvc" "13.1.6"
 
+node-aes-cmac@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/node-aes-cmac/-/node-aes-cmac-0.1.1.tgz#9bfff86b2f63e3949e2828bd85f5b6825b702844"
+  integrity sha512-6NTdKhEcev3IY+1uJY+LM8xs402Wvb47MYWdBqMvcd5lXmMB5FNGdaO8PuKDFoSodaCtlMBxiQ3uie3qCU5QOg==
+
+node-sdm@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-sdm/-/node-sdm-1.0.0.tgz#d55f49e2ba5220955b9cb8169cb1f5abd6ba5f3b"
+  integrity sha512-hTEyu5RhyWuK1pgHaM/Q1qOEWl82oymlXHRe4tt3iEFPCqvBSXhwYrSoLTe6JAkCto+qL/L3vGHNbpC5Gl4hOw==
+  dependencies:
+    node-aes-cmac "^0.1.1"
+
 object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
