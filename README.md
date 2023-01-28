@@ -1,4 +1,4 @@
-# NFS SUN (Secure Unique NFC) Validation
+# NFC SUN (Secure Unique NFC) Validation
 
 _Validate the authenticity of a request by using NFC tags._
 
@@ -16,11 +16,11 @@ For more information regarding **SUN**, refer to these websites/documents:
 
 ## Equipment
 
-| Item                  | Description                                                                                                                        | Link                                                                            |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| NTAG 424 DNA          | NFC tag                                                                                                                            | https://www.shopnfc.com/en/nfc-tags-in-pvc/500-circus-flex-pro-ntag424-dna.html |
-| Identiv uTrust 3700 F | NFC reader                                                                                                                         | https://www.amazon.com/gp/product/B07BZ5GCT5                                    |
-| NXP TagXplorer        | NFC Software<br/>Alternatively, you might be able to use the NXP TagWriter app on Android (iPhone version seem to be more limited) | https://www.nxp.com/design/software/tagxplorer/tagxplorer:TAGXPLORER            |
+| Item                  | Description                                                                                                                             | Link                                                                                        |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| NTAG 424 DNA          | NFC tag                                                                                                                                 | [Shop NFC](https://www.shopnfc.com/en/nfc-tags-in-pvc/500-circus-flex-pro-ntag424-dna.html) |
+| Identiv uTrust 3700 F | NFC reader                                                                                                                              | [Amazon](https://www.amazon.com/gp/product/B07BZ5GCT5)                                      |
+| NXP TagXplorer        | Free NFC Software<br/>Alternatively, you might be able to use the NXP TagWriter app on Android (iPhone version seem to be more limited) | [NXP](https://www.nxp.com/design/software/tagxplorer/tagxplorer:TAGXPLORER)                 |
 
 ## Encoding Tags
 1. Open NXP TagXplorer (may need to link JavaXF module)
@@ -30,13 +30,14 @@ For more information regarding **SUN**, refer to these websites/documents:
 5. Choose Mirroring Features
 6. Choose NTAG 424 DNA
 7. Choose Protocol (e.g. `https://`)
-8. Type in URI (e.g. `garytou.com`)
+8. Type in URI (e.g. `nfc.garytou.dev`)
 9. Select `Add Tag UID`
 10. Select `Add Interaction Counter`
 11. Select `Enable SUN Message`
-12. Please the cursor in URI data field where mirroring needs to be enabled (Mirroring replaces the `000` placeholders with the UID, Counter, and CMAC). Record the Offset Values for UID, Counter, and SUN (CMAC).
-13. Write to tag
-14. Pesss "OK"
+12. Modify the placeholders to match URL query params (.e.g `?uid=00000000000000&ctr=000000&cmac=0000000000000000`)
+13. Please the cursor in URI data field where mirroring needs to be enabled (Mirroring replaces the `000` placeholders with the UID, Counter, and CMAC). Record the Offset Values for UID, Counter, and SUN (CMAC).
+14. Write to tag
+15. Pesss "OK"
 16. Choose NTAG 424 DNA (top navigation)
 17. Select NDEF Application
 18. Press "Select"
@@ -48,14 +49,14 @@ For more information regarding **SUN**, refer to these websites/documents:
 24. Set SDM Meta Read Access Key to `0E` (everyone can read)
 25. Set SDM Counter Ret Access Key to `0E`
 26. Enter previously recorded Offset Values for UID, SDM Read Counter, and SDM MAC Input (SUN/CMAC)
-28. Set SDM MAC Offset to the same as SDM MAC Input Offset
-29. Press "Change File Settings"
-30. Press "OK"
-31. Press "Disconnect Tag
-32. Press "Disconnect Reader"
-33. Press "Connect Reader"
-34. Press "Connect Tag"
-35. Press "NDEF Operations"
-36. Press "Read NDEF"
+27. Set SDM MAC Offset to the same as SDM MAC Input Offset
+28. Press "Change File Settings"
+29. Press "OK"
+30. Press "Disconnect Tag
+31. Press "Disconnect Reader"
+32. Press "Connect Reader"
+33. Press "Connect Tag"
+34. Press "NDEF Operations"
+35. Press "Read NDEF"
 
 You should now see a valid SUN URL. Also test with iPhone (scan NFC tag).
